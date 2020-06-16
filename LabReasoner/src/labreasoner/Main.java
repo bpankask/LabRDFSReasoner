@@ -21,11 +21,11 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		
+		//Input ontology came from this url http://www.semanticbible.com/ntn/ntn-view.html
 		String readOntFileName = "C:\\Users\\Brayden Pankaskie\\Desktop\\BibleNames.rdf";
 		String ruleFile = "C:\\Users\\Brayden Pankaskie\\Desktop\\PrimaryRules.txt";
 		String traceFileName = "C:\\Users\\Brayden Pankaskie\\Desktop\\trace.txt";
 		
-		/*
 		//create empty ont model
     	OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
     	
@@ -60,10 +60,10 @@ public class Main {
     	    }
     	} 
     	out.flush();
-    	*/
+    	
 
     	OutputParser op = new OutputParser();
-    	op.readTrace(traceFileName);
+    	op.readTrace(traceFileName, "C:\\Users\\Brayden Pankaskie\\Desktop\\outPutFromTrace.txt");
 	}//end main
 
 }//end class
