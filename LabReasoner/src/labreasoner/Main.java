@@ -1,6 +1,7 @@
 package labreasoner;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Main {
 		String ruleFile = "C:\\Users\\Brayden Pankaskie\\Desktop\\PrimaryRules.txt";
 		String traceFileName = "C:\\Users\\Brayden Pankaskie\\Desktop\\trace.txt";
 		
+		/*
 		//create empty ont model
     	OntModel ontModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
     	
@@ -60,10 +62,30 @@ public class Main {
     	    }
     	} 
     	out.flush();
-    	
+    	*/
 
     	OutputParser op = new OutputParser();
-    	op.readTrace(traceFileName, "C:\\Users\\Brayden Pankaskie\\Desktop\\outPutFromTrace.txt");
+    	
+    	//puts raw data into list to be parsed
+    	List<StringBuilder> listOfConclutionsAndSteps = op.readTrace(traceFileName);
+    	
+    	//splits each line of string builder in listOfConclutionsAndSteps into an array of lines
+    	List<String[]> listOfArrays = new ArrayList<String[]>();
+    	for(int i=0; i<listOfConclutionsAndSteps.size(); i++) {
+    		listOfArrays.add(listOfConclutionsAndSteps.get(i).toString().split("\n"));
+    	}
+    	
+    	//gets the list of conclusions and steps without the facts which are found in original KB
+    	List<String[]> listOfArraysStripped = new ArrayList<String[]>();
+    	for(int j=0; j<listOfArrays.size(); j++) {
+    		listOfArraysStripped.add(op.factStripper(listOfArrays.get(j)));
+    	}
+    	
+    	int numOfLists = op.getNumOfLists(listOfArraysStripped);
+    	
+    	op.alotArraysToLists(numOfLists, listOfArraysStripped);  	
+    	
+    	
 	}//end main
 
 }//end class
