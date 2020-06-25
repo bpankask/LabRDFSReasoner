@@ -3,22 +3,61 @@
  */
 package labreasoner;
 
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileReader;
-import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 
 
 
 public class OutputParser {
 	
+	/**
+	 * Takes a Jena model passed from the main class and extracts all the triples from it.
+	 * @param model
+	 * @return strArr
+	 */
+	public String[] getTripleArray(Model model) {
+		
+		List<String> list = new ArrayList<String>();
+				
+		StmtIterator iter = model.listStatements();
+
+		while(iter.hasNext()) {
+			
+			StringBuilder sb = new StringBuilder();
+			
+			Statement stmt      = iter.nextStatement();// get next statement
+			Resource  subject   = stmt.getSubject();   // get the subject
+			Property  predicate = stmt.getPredicate(); // get the predicate
+			RDFNode   object    = stmt.getObject();    // get the object
+
+			sb.append(subject + " ");
+			sb.append(predicate + " ");
+			sb.append(object);
+			
+			list.add(sb.toString());
+			
+			//in case you need to distinguish resource from literal
+//			if (object instanceof Resource) {
+//				
+//			} else {
+//				// object is a literal
+//			}
+		}//end of while loop
+		
+		String[] strArr = list.toArray(new String[list.size()]);
+		return strArr;
+	}
 	
 	/**
 	 * Reads the trace of the inferences
@@ -41,7 +80,7 @@ public class OutputParser {
 			sl.add(line);
 		}
 		
-		//list to store individual steps that were meshed together in previouse list
+		//list to store individual steps that were meshed together in previous list
 		List<StringBuilder> sbl = new ArrayList<StringBuilder>();
 		
 		//string builder to store the conclusion and the facts it used to find it or a "step"
@@ -112,7 +151,8 @@ public class OutputParser {
 	
 	
 	/**
-	 * 
+	 * This method first gets the number of lists that will be needed to store each stage or step in the reasoning process
+	 * It then reverses the order of the array "input" so that the first entailment that was reasoned from the original KB is at position zero in each array instead of the last entailment
 	 * @param input
 	 * @return numOfLists
 	 */
@@ -142,33 +182,90 @@ public class OutputParser {
 		return numOfLists;
 	}//end method
 	
-	
-	public void alotArraysToLists(int numLists, List<String[]> input) {
+	/**
+	 * This method loops through a List of String arrays and adds them to the corresponding position (array[0] -> list.get(0).add(array[0]) for the purpose of grouping 
+	 * entailments from the same step together.
+	 * @param numLists
+	 * @param input
+	 * @return
+	 */
+	public List<List> alotArraysToLists(int numLists, List<String[]> input) {
 		
-		//make a stack with correct number of lists 
+		//make a list with correct number of lists inside list 
 		List<List> list = new ArrayList<List>();
 		for(int i=0; i<numLists; i++) {
 			List l = new ArrayList();
 			list.add(l);
 		}
 		
+		//loops through input list and grabs out each String array
 		for(int j=0; j<input.size(); j++) {
 			String[] inputArray = input.get(j);
+			//loops through the array from input list starting from the last spot in the array and adds the contents
+			//to the corresponding list created in this method
 			for(int k=inputArray.length-1; k>=0; k--) {	
 				list.get(k).add(inputArray[k]);
 			}//end inner for
 		}//end outer for
 		
+		return list;
+	}//end method
+	
+	
+	/**
+	 * Method to remove all duplicates within a list
+	 * Note it will not remove duclicates if they are in sepereate lists because this means the reasoner came to this conclusion using different information
+	 * @param inputList
+	 */
+	public void deleteDupl(List<List> inputList) {
 		
-		for(int i=0; i<numLists; i++) {
-			List l = list.get(i);
-			for(int j=0; j<l.size(); j++) {
-				System.out.println(l.get(j));
+		for (int i = 0; i < inputList.size(); i++) {
+    		List l = inputList.get(i);
+			for (int j = 0; j < l.size()-1; j++) {
+				for (int j2 = j+1; j2 < l.size(); j2++) {
+					if(((String) l.get(j)).contentEquals((String)l.get(j2)))
+						l.remove(j2);
+				}//end inner for
+			}//end middle for
+		}//end outer for
+		
+	}//end method
+	
+	
+	public void deleteIllegChar(List<List> listOfLists) {
+		
+		for (int i = 0; i < listOfLists.size(); i++) {
+			List l = listOfLists.get(i);
+			for (int j = 0; j < l.size() ; j++) {
+				
+				String s = ((String) l.get(j));
+				char[] charArr = s.toCharArray();
+				
+				int beginChar = 0;
+				int endChar = 0;
+				
+				for (int k = 0; k < charArr.length; k++) {
+					if(charArr[k] == '(') {
+						beginChar = k+1;
+						k = charArr.length;
+					}
+				}
+			
+				for (int k = charArr.length-1; k >= 0; k--) {
+					if(charArr[k] == ')') {
+						endChar = k;
+						k = -1;
+					}
+				}
+				
+				String str = s.substring(beginChar, endChar);
+				
+				
+				
+				
+				l.set(j, str);	
 			}
-			System.out.println("\n");
-		}
-		
-		
+		}//end outermost for loop
 	}//end method
 	
 }
