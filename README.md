@@ -24,6 +24,20 @@ To alter the rules or rule-set the reasoner uses to infer new information first 
 ```java
 ontModel.write(originalOut, "TURTLE");
 ```
+The code above was taken from the main class and uses the Jena method write() to print the graph "ontModel" to a file in "TURTLE" format.  The change the output format simply replace the "TURTLE" with any of the below formats.
+Writer Name | RDF Format
+------------|-----------
+"TURTLE"    |	TURTLE
+"TTL"       |	TURTLE
+"Turtle"	  | TURTLE
+"N-TRIPLES" |	NTRIPLES
+"N-TRIPLE"  |	NTRIPLES
+"NT"        |	NTRIPLES
+"JSON-LD"   |	JSONLD
+"RDF/XML-ABBREV" | RDFXML
+"RDF/XML"   |	RDFXML_PLAIN
+"N3"        |	N3
+"RDF/JSON". | JSON
 
 #### Other Helpful Documenation
 * [Apache Jena Documentation](https://jena.apache.org/documentation/)
