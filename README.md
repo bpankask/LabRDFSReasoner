@@ -21,9 +21,9 @@ To read a linked data file or change the file being read, enter the Main.java cl
 ### Altering rules
 To alter the rules or rule-set the reasoner uses to infer new information first go to the Rules.txt file.  All the rules and axioms which must be present for full RDFS reasoning are currently listed in this file but may be commented out using either two backslashed "//" or with a pound sign "#".  Existing rules may be changed or new rules added by following the Apache Jena Documentation for [general purpose rule engines](https://jena.apache.org/documentation/inference/index.html#rules).
 ### Changing output syntax
-'''java
+```java
 ontModel.write(originalOut, "TURTLE");
-'''
+```
 
 #### Other Helpful Documenation
 * [Apache Jena Documentation](https://jena.apache.org/documentation/)
