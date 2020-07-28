@@ -24,7 +24,7 @@ To alter the rules or rule-set the reasoner uses to infer new information first 
 ```java
 ontModel.write(originalOut, "TURTLE");
 ```
-The code above was taken from the main class and uses the Jena method write() to print the graph "ontModel" to a file in "TURTLE" format.  The change the output format simply replace the "TURTLE" with any of the below formats.
+The code above was taken from the Main class and uses the Jena method write() to print the graph "ontModel" to a file specified by the PrintWriter "originalOut" in "TURTLE" format.  "System.out" can replace the "originalOut" if printing to the console is desired.  To change the output format simply replace the "TURTLE" with any of the below formats.
 Writer Name | RDF Format
 ------------|-----------
 "TURTLE"    |	TURTLE
@@ -38,6 +38,9 @@ Writer Name | RDF Format
 "RDF/XML"   |	RDFXML_PLAIN
 "N3"        |	N3
 "RDF/JSON". | JSON
+### What is a Custom Builtin
+A custom builtin is a java class which enables the user to create custom methods which can be used in the Rule.txt file.  This is very useful when a function is required that Jena has not already implemented.  For a list of methods already implemented by Jena and for more documentation on creating custom builtins see, [Builtin Primative](https://jena.apache.org/documentation/inference/index.html#RULEbuiltins) and [Builtin Extentions](https://jena.apache.org/documentation/inference/index.html#RULEextensions).
+
 
 #### Other Helpful Documenation
 * [Apache Jena Documentation](https://jena.apache.org/documentation/)
