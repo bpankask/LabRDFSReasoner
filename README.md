@@ -16,7 +16,7 @@ This Java RDFS reasoner was designed to be flexible, custamizable, scalable, and
 ![](images/ReasonerGitHub.png)
 
 #### Other Helpful Documenation
-##### Apache Jena Documentation:
+##### Apache Jena Documentation: 
 Apache Jena is an API designed around various semantic web and linked data aplications.
-##### W3C Documentation:
+##### W3C Documentation:  [W3C](https://www.w3.org/TR/rdf-mt/#rules)
 
