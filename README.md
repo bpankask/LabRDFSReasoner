@@ -19,7 +19,7 @@ This Java RDFS reasoner was designed to be flexible, custamizable, scalable, and
 ### Reading different files
 To read a linked data file or change the file being read, enter the Main.java class and observe the string variable named ontologyFile at the top of the main method.  Next place the path of the file which is to be read and run the program.
 ### Altering rules
-To alter the rules or rule-set the reasoner uses to infer new information first go to the Rules.txt file.  All the rules and axioms which must be present for full RDFS reasoning are currently listed in this file but may be commented out using either two backslashed "//" or with a pound sign "#".  Existing rules may be changed or new rules added by following the Apache Jena Documentation for [general purpose rule engines](https://jena.apache.org/documentation/inference/index.html#rules).
+To alter the rules or rule-set the reasoner uses to infer new information, first go to the Rules.txt file.  All the rules and axioms which must be present for full RDFS reasoning are currently listed in this file but may be commented out using either two backslashed "//" or with a pound sign "#".  Existing rules may be changed or new rules added by following the Apache Jena Documentation for [general purpose rule engines](https://jena.apache.org/documentation/inference/index.html#rules).
 ### Changing output syntax
 ```java
 ontModel.write(originalOut, "TURTLE");
@@ -39,7 +39,11 @@ Writer Name | RDF Format
 "N3"        |	N3
 "RDF/JSON". | JSON
 ### What is a Custom Builtin
-A custom builtin is a java class which enables the user to create custom methods which can be used in the Rule.txt file.  This is very useful when a function is required that Jena has not already implemented.  For a list of methods already implemented by Jena and for more documentation on creating custom builtins see, [Builtin Primative](https://jena.apache.org/documentation/inference/index.html#RULEbuiltins) and [Builtin Extentions](https://jena.apache.org/documentation/inference/index.html#RULEextensions).
+A custom builtin is a java class which enables the user to create custom methods which can be used in the Rule.txt file.  This is very useful when a function is required that Jena has not already implemented.  For a list of methods already implemented by Jena and for more documentation on creating custom builtins see, [Builtin Primative](https://jena.apache.org/documentation/inference/index.html#RULEbuiltins) and [Builtin Extentions](https://jena.apache.org/documentation/inference/index.html#RULEextensions). This class must also be registered before it can be used which is accomplished using the following code:
+```java
+BuiltinRegistry.theRegistry.register(new ClassName());
+```
+where "ClassName" is the name of the new class.
 
 
 #### Other Helpful Documenation
