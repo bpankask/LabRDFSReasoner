@@ -1,0 +1,135 @@
+//All rules taken from official w3c website -- https://www.w3.org/TR/rdf-mt/#rules.
+
+//-----------------------------RDF axiomatic triples--------------------------------
+-> (rdf:type rdf:type rdf:Property) .
+-> (rdf:subject rdf:type rdf:Property) .
+-> (rdf:predicate rdf:type rdf:Property) .
+-> (rdf:object rdf:type rdf:Property) .
+-> (rdf:first rdf:type rdf:Property) .
+-> (rdf:rest rdf:type rdf:Property) .
+-> (rdf:value rdf:type rdf:Property) .
+-> (rdf:_1 rdf:type rdf:Property) .
+-> (rdf:_2 rdf:type rdf:Property) .
+-> (rdf:nil rdf:type rdf:List) .
+
+//-----------------------------RDFS axiomatic triples--------------------------------
+-> (rdf:type rdfs:domain rdfs:Resource) .
+-> (rdfs:domain rdfs:domain rdf:Property) .
+-> (rdfs:range rdfs:domain rdf:Property) .
+-> (rdfs:subPropertyOf rdfs:domain rdf:Property) .
+-> (rdfs:subClassOf rdfs:domain rdfs:Class) .
+-> (rdf:subject rdfs:domain rdf:Statement) .
+-> (rdf:predicate rdfs:domain rdf:Statement) .
+-> (rdf:object rdfs:domain rdf:Statement) .
+-> (rdfs:member rdfs:domain rdfs:Resource) .
+-> (rdf:first rdfs:domain rdf:List) .
+-> (rdf:rest rdfs:domain rdf:List) .
+-> (rdfs:seeAlso rdfs:domain rdfs:Resource) .
+-> (rdfs:isDefinedBy rdfs:domain rdfs:Resource) .
+-> (rdfs:comment rdfs:domain rdfs:Resource) .
+-> (rdfs:label rdfs:domain rdfs:Resource) .
+-> (rdf:value rdfs:domain rdfs:Resource) .
+
+-> (rdf:type rdfs:range rdfs:Class) .
+-> (rdfs:domain rdfs:range rdfs:Class) .
+-> (rdfs:range rdfs:range rdfs:Class) .
+-> (rdfs:subPropertyOf rdfs:range rdf:Property) .
+-> (rdfs:subClassOf rdfs:range rdfs:Class) .
+-> (rdf:subject rdfs:range rdfs:Resource) .
+-> (rdf:predicate rdfs:range rdfs:Resource) .
+-> (rdf:object rdfs:range rdfs:Resource) .
+-> (rdfs:member rdfs:range rdfs:Resource) .
+-> (rdf:first rdfs:range rdfs:Resource) .
+-> (rdf:rest rdfs:range rdf:List) .
+-> (rdfs:seeAlso rdfs:range rdfs:Resource) .
+-> (rdfs:isDefinedBy rdfs:range rdfs:Resource) .
+-> (rdfs:comment rdfs:range rdfs:Literal) .
+-> (rdfs:label rdfs:range rdfs:Literal) .
+-> (rdf:value rdfs:range rdfs:Resource) .
+
+-> (rdf:Alt rdfs:subClassOf rdfs:Container) .
+-> (rdf:Bag rdfs:subClassOf rdfs:Container) .
+-> (rdf:Seq rdfs:subClassOf rdfs:Container) .
+-> (rdfs:ContainerMembershipProperty rdfs:subClassOf rdf:Property) .
+
+-> (rdfs:isDefinedBy rdfs:subPropertyOf rdfs:seeAlso) .
+
+-> (rdf:XMLLiteral rdf:type rdfs:Datatype) .
+-> (rdf:XMLLiteral rdfs:subClassOf rdfs:Literal) .
+-> (rdfs:Datatype rdfs:subClassOf rdfs:Class) .
+
+//-> (rdf:_1 rdf:type rdfs:ContainerMembershipProperty) .
+//-> (rdf:_1 rdfs:domain rdfs:Resource) .
+//-> (rdf:_1 rdfs:range rdfs:Resource) .
+//-> (rdf:_2 rdf:type rdfs:ContainerMembershipProperty) .
+//-> (rdf:_2 rdfs:domain rdfs:Resource) .
+//-> (rdf:_2 rdfs:range rdfs:Resource) .
+
+//-----------------------------Simple entailment--------------------------------commented out
+//[se1: (?u ?a ?x) -> (?u ?a ?b)]
+//[se2: (?u ?a ?x) -> (?b ?a ?x)]
+
+//-----------------------------Literal generalization and instantiation rules----commented out
+//[lg: (?u ?a ?l), isLiteral(?l) -> (?u ?a ?b)]  
+//[gl: (?u ?a ?b), isBNode(?b) -> (?u ?a ?l)]
+
+//-----------------------------RDF Entailment Rules------------------------------
+[rdf1: (?u ?a ?y) -> (?a rdf:type rdf:Property)]
+[rdf2&lg: (?u ?a ?l), isLiteral(?l), isWellFormedXML(?l), makeTemp(?b) -> (?u ?a ?b), (?b rdf:type rdf:XMLLiteral)]
+
+//-----------------------------RDFS Entailment Rules-----------------------------
+[rdfs1&lg: (?u ?a ?l), isLiteral(?l), makeTemp(?b) -> (?u ?a ?b), (?b rdf:type rdfs:Literal)]
+
+[rdfs2: (?a rdfs:domain ?x), (?u ?a ?y) -> (?u rdf:type ?x)]
+
+[rdfs3: (?a rdfs:range ?x), ( ?u ?a ?v) -> ( ?v rdf:type ?x)]
+
+[rdfs4a: (?u ?a ?x) -> (?u rdf:type rdfs:Resource)]
+
+[rdfs4b: (?u ?a ?v) -> ( ?v rdf:type rdfs:Resource)]
+
+[rdfs5: (?u rdfs:subPropertyOf ?v), (?v rdfs:subPropertyOf ?x) -> (?u rdfs:subPropertyOf ?x)]
+
+[rdfs6: (?u rdf:type rdf:Property) -> (?u rdfs:subPropertyOf ?u)]
+
+[rdfs7: (?a rdfs:subPropertyOf ?b), (?u ?a ?y) -> (?u ?b ?y)]
+
+[rdfs8: (?u rdf:type rdfs:Class) -> (?u rdfs:subClassOf rdfs:Resource)]
+
+[rdfs9: (?u rdfs:subClassOf ?x), (?v rdf:type ?u) -> (?v rdf:type ?x)]
+
+[rdfs10: (?u rdf:type rdfs:Class) -> (?u rdfs:subClassOf ?u)]
+
+[rdfs11: (?u rdfs:subClassOf ?v), (?v rdfs:subClassOf ?x) -> (?u rdfs:subClassOf ?x)]
+
+[rdfs12: (?u rdf:type rdfs:ContainerMembershipProperty) -> (?u rdfs:subPropertyOf rdfs:member)]
+
+[rdfs13: (?u rdf:type rdfs:Datatype) -> (?u rdfs:subClassOf rdfs:Literal)]
+
+
+
+
+
+
+
+//Notes:
+//se1 and se2 will run infinitely and are only included for completeness. They seem to be more theoretical in nature.  The indented text is from the w3c official website 
+//explaining why they should only be used in a modified state.  Note that no spelling has been changed.
+
+	//It is easy to see that S is an instance of E if and only if one can derive E from S by applying these rules in a suitable sequence; the rule applications required can be discovered by 
+	//examination of the instance mapping. So, by the interpolation lemma, S simply entails E iff one can derive (a graph containing) E from S by the application of these rules. However, it 
+	//is also clear that applying these rules naively would not result in an efficient search process, since the rules will not terminate and can produce arbitrarily many redundant derivations of 
+	//equivalent triples.
+	
+	//The general problem of determining simple entailment between arbitrary RDF graphs is decideable but NP-complete. This can be shown by encoding the problem of detecting a subgraph of 
+	//an arbitrary directed graph as an RDF entailment, using only blank nodes to represent the graph (observation due to Jeremy Carroll.)
+	
+	//Subsequent rule sets for detecting RDF and RDFS entailment use a special case of rule se1 which applies only to literals:
+	
+//lg rule will probably not be needed except when combined with other rules involving a literal as seen in rdfs1 and rdf2.
+
+//gl I believe will only be needed if a custom rule is made that adds a blank node in the objects place replacing a literal. It is recommended that
+	//it be used in rule rdfs10 and rdfs6 on the w3c official website but I don't see how this would ever produce new information so it was not included. 
+
+//rdf2 does not actually check if the literal follows xml syntax but instead it checks to see if it claims to be.  Literals that will cause this rule to fire will have the parsetype: "Literal" 
+	//in the ontology but may or may not be well-typed xml.  If this is needed see class CustomBuiltIn.

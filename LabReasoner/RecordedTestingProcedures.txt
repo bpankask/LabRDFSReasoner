@@ -1,0 +1,26 @@
+1. Tested each rule individually for:
+	what should trigger the rule
+	what should not trigger the rule
+	replaced the subject, predicate, and object
+2. Combined rules in the following order:
+	rdfs1andlg, 2, 3, 4a, 4b, 5, 6, 7, 8, 9, 10, 11, 12, 13, rdf2andlg, and rdf1
+	Small changes were made during this stage to ensure that the same blank nodes were being used for both triples
+	added in rules rdf2 and rdfs1
+
+Steps one and two were tested with custom created Jena graphs  
+
+3. The complete rule-set was then tested on a small ontology not created specifically for testing purposes to make sure the previous graphs tested
+were not too specific or cooked up. - https://catalog.data.gov/dataset/sample-dataset-9d5f3/resource/aca8d047-9743-4e50-b2fd-be4bd75f240e - link to small ontology used
+
+4. The complete rule-set was then tested on a more diverse ontology of about the same size. - https://data.epo.org/linked-data/download/vocabularies/ipcOnt.ttl - 
+
+5. The ontology from step 4 was then altered to activate more rules.
+
+6. Added rdf and rdfs axiomatic triples then tested LabReasoner vs Jena rdfs full reasoner.  Some differences were noted but 
+   they were because the Jena reasoner hadn't implemented something the LabReasoner had.  Note this test was without blank node and literal
+   rules because Jena does not use them. Testing included an altered version of this file -https://catalog.data.gov/dataset/sample-dataset-9d5f3/resource/aca8d047-9743-4e50-b2fd-be4bd75f240e-
+   as well as these:
+   -https://docs.oxfordsemantic.tech/_downloads/3363d9dc746ef8dea2801e69253f0098/data.ttl- 
+   
+7. Blank node and literal rules were then turned on and tested with many of the same files but many more were included.
+	

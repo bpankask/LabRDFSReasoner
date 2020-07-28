@@ -3,6 +3,7 @@ package labreasoner;
 import java.nio.file.Paths;
 
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -17,15 +18,16 @@ public class OutputWriter {
 	 * Writes the triples stored in the Triple class to a json file in a long array of triples.
 	 * @param t
 	 */
-	public void writeToJSON(TripleList tl) {
+	public void writeToJSON(JsonFileContent jsonFC) {
 		try {
 			
 			ObjectMapper mapper = new ObjectMapper();
-
+			mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+			
 			ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
 
 			// convert book object to JSON file
-			writer.writeValue(Paths.get("tripleTest.json").toFile(), tl);
+			mapper.writeValue(Paths.get("outputInJSON.json").toFile(), jsonFC);
 			
 			
 		} catch (Exception ex) {

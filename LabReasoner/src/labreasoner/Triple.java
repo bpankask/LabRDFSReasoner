@@ -6,24 +6,24 @@ package labreasoner;
  *
  */
 public class Triple {
-	
-	public String[] triples;
 
-	public Triple () {
-		
+	private String[] triples;
+	
+	
+	public Triple(String[] OriginalAxioms) {
+		this.triples = OriginalAxioms;
 	}
 	
-	public Triple(String[] triples) {
-		super();
-		this.triples = triples;
+	public Triple () {
+		
 	}
 
 	public String[] getTriples() {
 		return triples;
 	}
 
-	public void setTriples(String[] triples) {
-		this.triples = triples;
+	public void setTriples(String[] OriginalAxioms) {
+		this.triples = OriginalAxioms;
 	}
 	
 }

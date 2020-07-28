@@ -3,7 +3,6 @@
  */
 package labreasoner;
 
-
 import java.io.File;
 import java.util.Scanner;
 import java.util.Stack;
@@ -17,8 +16,6 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 
-
-
 public class OutputParser {
 	
 	/**
@@ -26,7 +23,7 @@ public class OutputParser {
 	 * @param model
 	 * @return strArr
 	 */
-	public String[] getTripleArray(Model model) {
+	public List getTripleArray(Model model) {
 		
 		List<String> list = new ArrayList<String>();
 				
@@ -54,9 +51,8 @@ public class OutputParser {
 //				// object is a literal
 //			}
 		}//end of while loop
-		
-		String[] strArr = list.toArray(new String[list.size()]);
-		return strArr;
+	
+		return list;
 	}
 	
 	/**
@@ -211,7 +207,6 @@ public class OutputParser {
 		return list;
 	}//end method
 	
-	
 	/**
 	 * Method to remove all duplicates within a list
 	 * Note it will not remove duclicates if they are in sepereate lists because this means the reasoner came to this conclusion using different information
@@ -221,6 +216,7 @@ public class OutputParser {
 		
 		for (int i = 0; i < inputList.size(); i++) {
     		List l = inputList.get(i);
+    		//loops through l
 			for (int j = 0; j < l.size()-1; j++) {
 				for (int j2 = j+1; j2 < l.size(); j2++) {
 					if(((String) l.get(j)).contentEquals((String)l.get(j2)))
@@ -228,45 +224,86 @@ public class OutputParser {
 				}//end inner for
 			}//end middle for
 		}//end outer for
-		
-	}//end method
+	}//end method	
 	
-	
-	public void deleteIllegChar(List<List> listOfLists) {
-		
-		for (int i = 0; i < listOfLists.size(); i++) {
-			List l = listOfLists.get(i);
-			for (int j = 0; j < l.size() ; j++) {
-				
+	/**
+	 * First deletes all duplicates within each list in listList but will not delete duplicates between one list and another list, only duplicates within each list. It will also delete all characters
+	 * around the triples.  Note the actually triples of two statements could be the same but if they were derived by different rules they will be considered different and not removed.
+	 * @param listList
+	 */
+	public void delUnwanted(List<List> listList) {
+
+		for (int i = 0; i < listList.size(); i++) {
+
+			List l = listList.get(i);
+
+			for (int j = 0; j < l.size(); j++) {
+
+				//loop to check for any duplicates in list l
+				for (int j2 = j+1; j2 < l.size(); j2++) {
+					if(((String) l.get(j)).contentEquals((String)l.get(j2)))
+						l.set(j2, "remove");
+
+				}//end j2 loop
+				//----
+
+				//deletes all characters not in the triple that were put there in the trace from Jena
 				String s = ((String) l.get(j));
-				char[] charArr = s.toCharArray();
-				
-				int beginChar = 0;
-				int endChar = 0;
-				
-				for (int k = 0; k < charArr.length; k++) {
-					if(charArr[k] == '(') {
-						beginChar = k+1;
-						k = charArr.length;
+
+				if(s != "remove") {
+					char[] charArr = s.toCharArray();
+
+					int beginChar = 0;
+					int endChar = 0;
+
+					//finds the beginning of triple
+					for (int k = 0; k < charArr.length; k++) {
+						if(charArr[k] == '(') {
+							beginChar = k+1;
+							k = charArr.length;
+						}
 					}
-				}
-			
-				for (int k = charArr.length-1; k >= 0; k--) {
-					if(charArr[k] == ')') {
-						endChar = k;
-						k = -1;
+
+					//finds the end of triple
+					for (int k = charArr.length-1; k >= 0; k--) {
+						if(charArr[k] == ')') {
+							endChar = k;
+							k = -1;
+						}
 					}
+
+					//string containing triple and a couple of characters to be removed
+					String str = s.substring(beginChar, endChar);
+
+					//split triple into subject predicate and object
+					String[] subPredObj = str.split(" ");
+					String finalStr = "";
+
+					//loop through the subject predicate and object
+					for (int k = 0; k < subPredObj.length; k++) {
+						//turn them to character arrays
+						char[] spoArr = subPredObj[k].toCharArray();
+						String spoStr = "";
+						if(spoArr[0] == '<') {
+							spoStr = subPredObj[k].substring(1, subPredObj[k].length()-1);
+						}
+						else {
+							spoStr = subPredObj[k];
+						}
+						finalStr += spoStr + " ";
+					}
+
+					l.set(j, finalStr);
+					//----
 				}
-				
-				String str = s.substring(beginChar, endChar);
-				
-				
-				
-				
-				l.set(j, str);	
 			}
-		}//end outermost for loop
+		}//end outer for loop
+		
+		for (List list : listList) {
+			while(list.remove("remove") == true) {
+			}
+		}
+		
 	}//end method
-	
 }
 	
