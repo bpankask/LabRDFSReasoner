@@ -13,5 +13,7 @@ This Java RDFS reasoner was designed to be flexible, custamizable, scalable, and
 * Create an accurate inference graph which is a full RDFS entailment of the original graph based on the RDFS entailment lema from the W3C website.
     
 ## Design Overview
+![](images/ReasonerGitHub.png)
+
 
 #### Other Helpful Documenation:
