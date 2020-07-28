@@ -11,9 +11,13 @@ This Java RDFS reasoner was designed to be flexible, custamizable, scalable, and
 * Convert any linked data graph to desired syntax.  (Turtle, N-Triples, NQuads, TriG, JSON-LD, RDF/XML, RDF/JSON, TriX, RDF Binary)
 * Reason over linked data using comletely customized rule-set in forward, backward, or hibrid chaining.
 * Create an accurate inference graph which is a full RDFS entailment of the original graph based on the RDFS entailment lema from the W3C website.
-    
-## Design Overview
+
+## Class Flow
 ![](images/ReasonerGitHub.png)
+
+## User Manual Summery
+### Altering rules
+To alter the rules or rule-set the reasoner uses to infer new information first go to the Rules.txt file.  All the rules and axioms which must be present for full RDFS reasoning are currently listed in this file but may be commented out using either two backslashed "//" or with a pound sign "#".  Existing rules may be changed or new rules added by following the Apache Jena Documentation for [general purpose rule engines](https://jena.apache.org/documentation/inference/index.html#rules).  
 
 #### Other Helpful Documenation
 * [Apache Jena Documentation](https://jena.apache.org/documentation/)
