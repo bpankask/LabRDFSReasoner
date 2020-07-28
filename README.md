@@ -1,2 +1,8 @@
-# LabRDFSReasoner
-Reasoner for Aaron's idea of training NN to learn logic.  Also apart of Bosch project.
+# RDFS Semantic Reasoner
+
+### Contributers:
+Brayden Pankaskie
+
+### Purpose:
+
+### Functions and Features:
