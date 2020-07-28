@@ -14,5 +14,4 @@ This Java RDFS reasoner was designed to be flexible, custamizable, scalable, and
     
 ## Design Overview
 
-
 #### Other Helpful Documenation:
