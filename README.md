@@ -38,13 +38,12 @@ Writer Name | RDF Format
 "RDF/XML"   |	RDFXML_PLAIN
 "N3"        |	N3
 "RDF/JSON". | JSON
-### What is a Custom Builtin
+### Custom Builtin
 A custom builtin is a java class which enables the user to create custom methods which can be used in the Rule.txt file.  This is very useful when a function is required that Jena has not already implemented.  For a list of methods already implemented by Jena and for more documentation on creating custom builtins see, [Builtin Primative](https://jena.apache.org/documentation/inference/index.html#RULEbuiltins) and [Builtin Extentions](https://jena.apache.org/documentation/inference/index.html#RULEextensions). This class must also be registered before it can be used which is accomplished using the following code:
 ```java
 BuiltinRegistry.theRegistry.register(new ClassName());
 ```
 where "ClassName" is the name of the new class.
-
 
 #### Other Helpful Documenation
 * [Apache Jena Documentation](https://jena.apache.org/documentation/)
